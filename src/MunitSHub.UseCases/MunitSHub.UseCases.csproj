@@ -15,13 +15,4 @@
       <ProjectReference Include="..\MunitSHub.Protos\MunitSHub.Protos.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="Grpc.Net.Client">
-        <HintPath>..\..\..\.nuget\packages\grpc.net.client\2.67.0\lib\net8.0\Grpc.Net.Client.dll</HintPath>
-      </Reference>
-      <Reference Include="MunitSHub.Protos">
-        <HintPath>..\MunitSHub\bin\Debug\net9.0\MunitSHub.Protos.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>

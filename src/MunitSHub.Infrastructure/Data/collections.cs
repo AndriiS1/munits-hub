@@ -1,6 +1,7 @@
 namespace MunitSDomain.Infrastructure.Data;
 
-public class collections
+public static class Collections
 {
-    
+    public const string Users = "users";
+    public const string Permissions = "permissions";
 }
