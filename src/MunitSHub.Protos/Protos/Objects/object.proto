@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option csharp_namespace = "MunitSHub";
+
+package object;
+
+service ObjectsService {
+  rpc CreateObject(CreateObjectRequest) returns (ObjectServiceStatusResponse);
+  rpc UploadObject(stream UploadObjectRequest) returns (ObjectServiceStatusResponse);
+  rpc DeleteObject(DeleteObjectRequest) returns (ObjectServiceStatusResponse);
+}
+
+// Upload object
+message CreateObjectRequest {
+  string bucketName = 1;
+  string fileKey = 2;
+  string contentType = 3;
+  int64 sizeInBytes = 4;
+}
+
+// Upload object
+message UploadObjectRequest {
+  string bucketName = 1;
+  string fileKey = 2;
+  int64 totalChunks = 3;
+  Chunk chunk = 4;
+}
+
+message Chunk {
+  bytes dataStream = 1;
+  int64 chunkIndex = 3;
+}
+
+// Delete object
+message DeleteObjectRequest {
+  string bucketName = 1;
+  string fileKey = 2;
+}
+
+// Status response
+message ObjectServiceStatusResponse {
+  string status = 1;
+}

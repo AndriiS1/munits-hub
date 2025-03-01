@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>MunitSHub</RootNamespace>
+        <UserSecretsId>8d7de89f-7a95-4438-bf34-a988bff6bca0</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\MunitSHub.Infrastructure\MunitSHub.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\MunitSHub.UseCases\MunitSHub.UseCases.csproj" />
+      <ProjectReference Include="..\MunitSHub.Infrastructure\MunitSHub.Infrastructure.csproj" />
+      <ProjectReference Include="..\MunitSHub.UseCases\MunitSHub.UseCases.csproj" />
+    </ItemGroup>
+</Project>
