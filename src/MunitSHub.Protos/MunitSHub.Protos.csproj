@@ -30,6 +30,7 @@
     <PackageReference Include="Grpc.Core.Api" Version="2.67.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.67.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.70.0"/>
     </ItemGroup>
 
 </Project>

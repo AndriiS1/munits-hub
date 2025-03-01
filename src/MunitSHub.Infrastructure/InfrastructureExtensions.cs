@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using MunitSDomain.Infrastructure.Data.Repositories;
 using MunitSDomain.Infrastructure.Options.DataBase;
 using MunitSDomain.Infrastructure.Options.Storage;
 using MunitSHub.Domain.Permission;
 using MunitSHub.Domain.User;
-namespace MunitSDomain.Infrastructure;
+using MunitSHub.Infrastructure.Data.Repositories;
+namespace MunitSHub.Infrastructure;
 
 public static class InfrastructureExtensions
 {

@@ -1,5 +1,5 @@
-using MunitSDomain.Infrastructure;
 using MunitSHub.Apis.Buckets;
+using MunitSHub.Infrastructure;
 using MunitSHub.UseCases;
 namespace MunitSHub;
 

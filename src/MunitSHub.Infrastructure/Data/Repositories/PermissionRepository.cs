@@ -1,7 +1,8 @@
 using MongoDB.Driver;
+using MunitSDomain.Infrastructure.Data;
 using MunitSHub.Domain.Permission;
 using MunitSHub.Domain.User;
-namespace MunitSDomain.Infrastructure.Data.Repositories;
+namespace MunitSHub.Infrastructure.Data.Repositories;
 
 public class PermissionRepository(IMongoDatabase database) : IPermissionRepository
 {
