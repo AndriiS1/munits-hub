@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace MunitSDomain.Infrastructure.Options.Storage;
+namespace MunitSHub.Infrastructure.Options.Storage;
 
 public record StorageServiceOptions
 {

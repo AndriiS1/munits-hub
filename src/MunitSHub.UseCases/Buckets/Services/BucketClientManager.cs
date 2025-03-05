@@ -1,6 +1,6 @@
 using Grpc.Net.Client;
 using Microsoft.Extensions.Options;
-using MunitSDomain.Infrastructure.Options.Storage;
+using MunitSHub.Infrastructure.Options.Storage;
 namespace MunitSHub.UseCases.Buckets.Services;
 
 public class BucketClientManager(IOptions<StorageServiceOptions> options) : IBucketClientManager
