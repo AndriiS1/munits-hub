@@ -9,23 +9,26 @@ namespace MunitSHub.Apis.Buckets;
 public static class BucketEndpoints
 {
     private const string Source = "BucketsApi";
-    private const string GroupName = "buckets";
     public static void MapBucketEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("{GroupName}/", async ([FromBody] CreateBucketCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
+        app.MapPost("buckets/", async ([FromBody] CreateBucketCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
             .WithGroupName(Source)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization();
         
-        app.MapDelete("{GroupName}/", async ([FromBody] DeleteBucketCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
+        app.MapDelete("buckets/", async ([FromBody] DeleteBucketCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
             .WithGroupName(Source)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization();
         
-        app.MapGet("{GroupName}/{{name}}", async (string name, [FromServices] IMediator mediator) => await mediator.Send(new GetBucketCommand(name)))
+        app.MapGet("buckets/{{name}}", async (string name, [FromServices] IMediator mediator) => await mediator.Send(new GetBucketCommand(name)))
             .WithGroupName(Source)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization();
         
-        app.MapPost("{GroupName}/filter", async ([FromBody] GetBucketsCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
+        app.MapPost("buckets/filter", async ([FromBody] GetBucketsCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
             .WithGroupName(Source)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization();
     }
 }

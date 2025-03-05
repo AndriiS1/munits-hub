@@ -1,6 +1,6 @@
 using Grpc.Net.Client;
 using Microsoft.Extensions.Options;
-using MunitSDomain.Infrastructure.Options.Storage;
+using MunitSHub.Infrastructure.Options.Storage;
 namespace MunitSHub.UseCases.Objects.Services;
 
 public class ObjectClientManager(IOptions<StorageServiceOptions> options) : IObjectClientManager

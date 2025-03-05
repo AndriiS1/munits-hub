@@ -1,13 +1,25 @@
 using MunitSHub.Apis.Buckets;
+using MunitSHub.Apis.User;
 using MunitSHub.Infrastructure;
+using MunitSHub.Middlewares.ExceptionHandlerMiddleware;
 using MunitSHub.UseCases;
+using Serilog;
 namespace MunitSHub;
 
-public abstract class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
+        
+        builder.Host.UseSerilog();
+        
         builder.ConfigureInfrastructure();
         builder.ConfigureUseCases();
         builder.Services.AddAuthorization();
@@ -15,6 +27,7 @@ public abstract class Program
         builder.Services.AddOpenApi();
 
         var app = builder.Build();
+        app.UseMiddleware<UserExceptionHandlerMiddleware>();
         
         if (app.Environment.IsDevelopment())
         {
@@ -26,6 +39,7 @@ public abstract class Program
         app.UseAuthorization();
 
         app.MapBucketEndpoints();
+        app.MapUserEndpoints();
 
         app.Run();
     }

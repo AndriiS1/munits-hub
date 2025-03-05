@@ -13,9 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\MunitSHub.Infrastructure\MunitSHub.Infrastructure.csproj" />
-      <ProjectReference Include="..\..\MunitSHub.UseCases\MunitSHub.UseCases.csproj" />
-      <ProjectReference Include="..\MunitSHub.Infrastructure\MunitSHub.Infrastructure.csproj" />
       <ProjectReference Include="..\MunitSHub.UseCases\MunitSHub.UseCases.csproj" />
     </ItemGroup>
 </Project>

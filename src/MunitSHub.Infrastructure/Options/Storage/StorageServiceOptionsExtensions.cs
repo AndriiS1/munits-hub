@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-namespace MunitSDomain.Infrastructure.Options.Storage;
+namespace MunitSHub.Infrastructure.Options.Storage;
 
 public static class StorageServiceOptionsExtensions
 {
