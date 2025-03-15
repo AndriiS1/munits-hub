@@ -34,6 +34,8 @@ public static class Program
             app.MapOpenApi();
         }
 
+        app.UseCors();
+        
         app.UseHttpsRedirection();
 
         app.UseAuthorization();

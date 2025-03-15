@@ -6,10 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
-using MunitSDomain.Infrastructure.Options.DataBase;
 using MunitSHub.Domain.Permission;
 using MunitSHub.Domain.User;
 using MunitSHub.Infrastructure.Data.Repositories;
+using MunitSHub.Infrastructure.Options.Clients;
 using MunitSHub.Infrastructure.Options.DataBase;
 using MunitSHub.Infrastructure.Options.Jwt;
 using MunitSHub.Infrastructure.Options.Storage;
@@ -23,6 +23,7 @@ public static class InfrastructureExtensions
         builder.ConfigureDatabase();
         builder.ConfigureRepositories();
         builder.ConfigureJwt();
+        builder.ConfigureCors();
     }
     
     private static void AddOptions(this WebApplicationBuilder builder)
@@ -80,6 +81,25 @@ public static class InfrastructureExtensions
                 ValidateLifetime = false,
                 ValidateIssuerSigningKey = true
             };
+        });
+    }
+
+    private static void ConfigureCors(this WebApplicationBuilder builder)
+    {
+        var configuration = builder.Configuration;
+        
+        var optionsSection = configuration.GetSection(ClientsOptions.Section);
+        var clientsOptions = optionsSection.Get<ClientsOptions>()!;
+        
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    policy.WithOrigins(clientsOptions.ClientsUrls)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
         });
     }
 }

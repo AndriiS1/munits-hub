@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using MunitSHub.Infrastructure.Options.DataBase;
-namespace MunitSDomain.Infrastructure.Options.DataBase;
+namespace MunitSHub.Infrastructure.Options.DataBase;
 
 public static class DataBaseOptionsExtensions
 {
