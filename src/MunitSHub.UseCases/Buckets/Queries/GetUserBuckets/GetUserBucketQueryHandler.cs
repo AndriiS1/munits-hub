@@ -4,12 +4,12 @@ using MunitSHub.Domain.Permission;
 using MunitSHub.UseCases.Buckets.Services;
 namespace MunitSHub.UseCases.Buckets.Queries.GetUserBuckets;
 
-public class GetUserBucketCommandHandler(IBucketClientManager bucketClientManager, IPermissionRepository permissionRepository)
-    : IRequestHandler<GetUserBucketsCommand, IResult>
+public class GetUserBucketQueryHandler(IBucketClientManager bucketClientManager, IPermissionRepository permissionRepository)
+    : IRequestHandler<GetUserBucketsQuery, IResult>
 {
-    public async Task<IResult> Handle(GetUserBucketsCommand command, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(GetUserBucketsQuery query, CancellationToken cancellationToken)
     {
-        var userBucketPermissions = await permissionRepository.GetAll(command.UserId, command.Page, command.PageSize, TargetType.Bucket);
+        var userBucketPermissions = await permissionRepository.GetAll(query.UserId, query.Page, query.PageSize, TargetType.Bucket);
 
         var response = await bucketClientManager.GetClient().GetBucketsAsync(new GetBucketsRequest
         {

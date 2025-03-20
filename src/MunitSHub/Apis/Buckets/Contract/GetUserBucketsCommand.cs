@@ -4,8 +4,8 @@ namespace MunitSHub.Apis.Buckets.Contract;
 
 public sealed record GetBucketsContract(int PageSize, int Page)
 {
-    public GetUserBucketsCommand ToCommand(ObjectId userId)
+    public GetUserBucketsQuery ToCommand(ObjectId userId)
     {
-        return new GetUserBucketsCommand(userId, PageSize, Page);
+        return new GetUserBucketsQuery(userId, PageSize, Page);
     }
 }
