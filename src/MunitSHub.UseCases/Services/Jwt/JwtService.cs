@@ -16,7 +16,7 @@ public class JwtService(IOptions<JwtOptions> options) : IJwtService
 
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
         };
 
         var token = new JwtSecurityToken(

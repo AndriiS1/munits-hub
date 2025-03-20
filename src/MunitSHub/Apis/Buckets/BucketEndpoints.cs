@@ -1,5 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MunitSHub.Apis.Buckets.Contract;
 using MunitSHub.UseCases.Buckets.Commands.Create;
 using MunitSHub.UseCases.Buckets.Commands.Delete;
 using MunitSHub.UseCases.Buckets.Queries.GetBucket;
@@ -11,7 +15,12 @@ public static class BucketEndpoints
     private const string Source = "BucketsApi";
     public static void MapBucketEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("buckets/", async ([FromBody] CreateBucketCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
+        app.MapPost("buckets/", async (HttpContext httpContext, [FromBody] CreateBucketContract contract, [FromServices] IMediator mediator) =>
+            {
+                var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                
+                return await mediator.Send(new CreateBucketCommand(new ObjectId(userId), contract.Name, contract.VersioningEnabled, contract.VersionsLimit));
+            })
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();

@@ -1,6 +1,5 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MunitSDomain.Infrastructure.Data;
 using MunitSHub.Domain.User;
 namespace MunitSHub.Infrastructure.Data.Repositories;
 

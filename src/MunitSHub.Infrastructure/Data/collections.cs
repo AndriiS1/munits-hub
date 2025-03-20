@@ -1,4 +1,4 @@
-namespace MunitSDomain.Infrastructure.Data;
+namespace MunitSHub.Infrastructure.Data;
 
 public static class Collections
 {

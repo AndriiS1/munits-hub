@@ -7,7 +7,7 @@ public class GetsBucketCommandHandler(IBucketClientManager bucketClientManager) 
 {
     public async Task<IResult> Handle(GetBucketsCommand command, CancellationToken cancellationToken)
     {
-        var response = await bucketClientManager.GetClient().GetBucketsAsync(new GetBucketsRequest()
+        var response = await bucketClientManager.GetClient().GetBucketsAsync(new GetBucketsRequest
         {
             BucketNames = {command.Names},
         }, cancellationToken: cancellationToken);

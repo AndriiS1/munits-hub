@@ -5,7 +5,7 @@ option csharp_namespace = "MunitSHub";
 package bucket;
 
 service BucketsService {
-  rpc CreateBucket(CreateBucketRequest) returns (BucketServiceStatusResponse);
+  rpc CreateBucket(CreateBucketRequest) returns (CreateBucketResponse);
   rpc DeleteBucket(DeleteBucketRequest) returns (BucketServiceStatusResponse);
   rpc GetBucket(GetBucketRequest) returns (GetBucketResponse);
   rpc GetBuckets(GetBucketsRequest) returns (GetBucketsResponse);
@@ -18,6 +18,9 @@ message CreateBucketRequest {
   int32 versions_limit = 3;
 }
 
+message CreateBucketResponse {
+  string bucketId = 1;
+}
 
 // Delete bucket 
 message DeleteBucketRequest {

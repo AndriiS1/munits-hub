@@ -3,5 +3,5 @@ namespace MunitSHub.Domain.Permission;
 
 public interface IPermissionRepository
 {
-    Task Create(User.User user, IClientSessionHandle session);
+    Task Create(Permission permission);
 }
