@@ -1,13 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using MunitSHub.Apis.Buckets.Contract;
-using MunitSHub.UseCases.Buckets.Commands.Create;
 using MunitSHub.UseCases.Buckets.Commands.Delete;
 using MunitSHub.UseCases.Buckets.Queries.GetBucket;
-using MunitSHub.UseCases.Buckets.Queries.GetBuckets;
 namespace MunitSHub.Apis.Buckets;
 
 public static class BucketEndpoints
@@ -15,12 +10,8 @@ public static class BucketEndpoints
     private const string Source = "BucketsApi";
     public static void MapBucketEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("buckets/", async (HttpContext httpContext, [FromBody] CreateBucketContract contract, [FromServices] IMediator mediator) =>
-            {
-                var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                
-                return await mediator.Send(new CreateBucketCommand(new ObjectId(userId), contract.Name, contract.VersioningEnabled, contract.VersionsLimit));
-            })
+        app.MapPost("buckets/", async (HttpContext httpContext, [FromBody] CreateBucketContract contract, [FromServices] IMediator mediator) => 
+                await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
@@ -30,12 +21,14 @@ public static class BucketEndpoints
             .DisableAntiforgery()
             .RequireAuthorization();
         
-        app.MapGet("buckets/{{name}}", async (string name, [FromServices] IMediator mediator) => await mediator.Send(new GetBucketCommand(name)))
+        app.MapGet("buckets/{{id}}", async (string id, HttpContext httpContext, [FromServices] IMediator mediator) =>
+            await mediator.Send(new GetBucketCommand(httpContext.GetUserId(), id)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
         
-        app.MapPost("buckets/filter", async ([FromBody] GetBucketsCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
+        app.MapPost("buckets/user", async (HttpContext httpContext, [FromBody] GetBucketsContract contract, [FromServices] IMediator mediator) =>
+                await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
