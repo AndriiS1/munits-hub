@@ -1,12 +1,9 @@
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 namespace MunitSHub.Domain.Permission;
 
-public class Permission
+public class Permission : Entity.Entity
 {
-    [BsonId]
-    public required ObjectId Id { get; set; }
-    public required ObjectId UserId { get; set; }
-    public required string TargetId { get; set; }
-    public required TargetType TargetType { get; set; }
+    public required ObjectId UserId { get; init; }
+    public required string TargetId { get; init; }
+    public required TargetType TargetType { get; init; }
 }

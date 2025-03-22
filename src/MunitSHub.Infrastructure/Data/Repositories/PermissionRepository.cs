@@ -15,7 +15,11 @@ public class PermissionRepository(IMongoDatabase database) : IPermissionReposito
     public async Task<Permission?> Get(ObjectId userId, string targetId, TargetType targetType)
     {
         return await (await _collection
-            .FindAsync(x => x.UserId == userId && x.TargetId == targetId && x.TargetType == targetType)).FirstOrDefaultAsync();
+            .FindAsync(x => x.UserId == userId && x.TargetId == targetId && x.TargetType == targetType,
+                new FindOptions<Permission>
+                {
+                    Sort = Builders<Permission>.Sort.Descending(x => x.Created)
+                })).FirstOrDefaultAsync();
     }
 
     public async Task<List<Permission>> GetAll(ObjectId userId, int page, int pageSize, TargetType targetType)

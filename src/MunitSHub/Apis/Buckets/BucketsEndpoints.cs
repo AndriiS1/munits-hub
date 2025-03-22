@@ -6,7 +6,7 @@ using MunitSHub.UseCases.Buckets.Queries.GetBucket;
 using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
 namespace MunitSHub.Apis.Buckets;
 
-public static class BucketEndpoints
+public static class BucketsEndpoints
 {
     private const string Source = "BucketsApi";
     public static void MapBucketEndpoints(this IEndpointRouteBuilder app)

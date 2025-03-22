@@ -1,11 +1,7 @@
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 namespace MunitSHub.Domain.User;
 
-public class User
+public class User : Entity.Entity
 {
-    [BsonId]
-    public ObjectId Id { get; init; }
     public required string Email { get; init; }
     public required string PasswordHash { get; init; }
     public required string RefreshToken { get; init; }
