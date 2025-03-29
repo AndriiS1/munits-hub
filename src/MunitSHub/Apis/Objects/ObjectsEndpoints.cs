@@ -9,7 +9,7 @@ public static class ObjectsEndpoints
 
     public static void MapObjectsEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("buckets/filter", async (HttpContext httpContext, [FromBody] GetObjectContract contract,
+        app.MapPost("objects/filter", async (HttpContext httpContext, [FromBody] GetObjectContract contract,
                 [FromServices] IMediator mediator) => await mediator.Send(contract.ToQuery(httpContext.GetUserId())))
             .WithGroupName(Source)
             .DisableAntiforgery()

@@ -7,7 +7,7 @@ public class ObjectClientManager(IOptions<StorageServiceOptions> options) : IObj
 {
     public ObjectsService.ObjectsServiceClient GetClient()
     {
-        using var channel = GrpcChannel.ForAddress(options.Value.ConnectionUrl);
+        var channel = GrpcChannel.ForAddress(options.Value.ConnectionUrl);
         return new ObjectsService.ObjectsServiceClient(channel);
     }
 }

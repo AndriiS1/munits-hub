@@ -1,4 +1,5 @@
 using MunitSHub.Apis.Buckets;
+using MunitSHub.Apis.Objects;
 using MunitSHub.Apis.User;
 using MunitSHub.Infrastructure;
 using MunitSHub.Middlewares.ExceptionHandlerMiddleware;
@@ -41,6 +42,7 @@ public static class Program
         app.UseAuthorization();
 
         app.MapBucketEndpoints();
+        app.MapObjectsEndpoints();
         app.MapUserEndpoints();
 
         app.Run();
