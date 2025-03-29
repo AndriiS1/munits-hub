@@ -23,6 +23,7 @@ public class CreateBucketCommandHandler(IBucketClientManager clientManager, IPer
             TargetId = createBucketResponse.BucketId,
             TargetType = TargetType.Bucket,
             UserId = command.UserId,
+            TargetName = command.Name,
         });
         
         return Results.NoContent();

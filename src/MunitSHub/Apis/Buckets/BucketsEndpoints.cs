@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MunitSHub.Apis.Buckets.Contract;
 using MunitSHub.UseCases.Buckets.Commands.Delete;
 using MunitSHub.UseCases.Buckets.Queries.GetBucket;
+using MunitSHub.UseCases.Buckets.Queries.GetBucketByName;
 using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
 namespace MunitSHub.Apis.Buckets;
 
@@ -28,8 +29,14 @@ public static class BucketsEndpoints
             .DisableAntiforgery()
             .RequireAuthorization();
 
-        app.MapGet("buckets/{{id}}", async (string id, HttpContext httpContext, [FromServices] IMediator mediator) =>
+        app.MapGet("buckets/{id}", async (string id, HttpContext httpContext, [FromServices] IMediator mediator) =>
             await mediator.Send(new GetBucketQuery(httpContext.GetUserId(), id)))
+            .WithGroupName(Source)
+            .DisableAntiforgery()
+            .RequireAuthorization();
+        
+        app.MapGet("buckets/by-name/{bucketName}", async (string bucketName, HttpContext httpContext, [FromServices] IMediator mediator) =>
+            await mediator.Send(new GetBucketByNameQuery(httpContext.GetUserId(), bucketName)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
