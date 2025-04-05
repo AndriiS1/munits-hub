@@ -1,6 +1,6 @@
 using MongoDB.Bson;
 using MunitSHub.UseCases.Objects.Queries.GetObjects;
-namespace MunitSHub.Apis.Objects.Contract;
+namespace MunitSHub.Apis.Objects.Contracts;
 
 public sealed record GetObjectContract
 {
