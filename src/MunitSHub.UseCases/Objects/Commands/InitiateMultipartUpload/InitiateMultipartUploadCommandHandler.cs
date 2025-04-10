@@ -13,7 +13,7 @@ public class InitiateMultipartUploadCommandHandler(IObjectClientManager objectCl
 
         if (permission == null) return Results.Forbid();
 
-        await objectClient.GetClient().InitiateMultipartUploadAsync(new InitiateMultipartUploadRequest
+        var response = await objectClient.GetClient().InitiateMultipartUploadAsync(new InitiateMultipartUploadRequest
         {
             BucketId = command.BucketId,
             FileKey = command.FileKey,
@@ -21,6 +21,9 @@ public class InitiateMultipartUploadCommandHandler(IObjectClientManager objectCl
             SizeInBytes = command.SizeInBytes,
         }, cancellationToken: cancellationToken);
 
-        return Results.NoContent();
+        return Results.Ok(new
+        {
+            response.UploadId
+        });
     }
 }

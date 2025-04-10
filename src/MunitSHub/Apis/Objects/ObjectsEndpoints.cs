@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MunitSHub.Apis.Objects.Contracts;
+using MunitSHub.UseCases.Objects.Queries.GetUploadSignedUrls;
 namespace MunitSHub.Apis.Objects;
 
 public static class ObjectsEndpoints
@@ -14,13 +15,25 @@ public static class ObjectsEndpoints
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
-        
-        app.MapPost("objects/{uploadId}/abort", async (HttpContext httpContext, [FromBody] AbortMultipartUploadContract contract,
-                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
+
+        app.MapPost("objects/{uploadId}/abort", async (string uploadId, HttpContext httpContext, [FromBody] AbortMultipartUploadContract contract,
+                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId(), uploadId)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
-        
+
+        app.MapPost("objects/{uploadId}/complete", async ([FromRoute] string uploadId, HttpContext httpContext, [FromBody] CompleteMultipartUploadContract contract,
+                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId(), uploadId)))
+            .WithGroupName(Source)
+            .DisableAntiforgery()
+            .RequireAuthorization();
+
+        app.MapGet("objects/{uploadId}/signed-urls", async ([FromRoute] string uploadId, HttpContext httpContext, [FromQuery] string bucketId, [FromQuery] long fileSize,
+                [FromServices] IMediator mediator) => await mediator.Send(new GetUploadSignedUrlsQuery(httpContext.GetUserId(), bucketId, uploadId, fileSize)))
+            .WithGroupName(Source)
+            .DisableAntiforgery()
+            .RequireAuthorization();
+
         app.MapPost("objects/filter", async (HttpContext httpContext, [FromBody] GetObjectContract contract,
                 [FromServices] IMediator mediator) => await mediator.Send(contract.ToQuery(httpContext.GetUserId())))
             .WithGroupName(Source)
