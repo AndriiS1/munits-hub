@@ -10,34 +10,41 @@ public class RefreshTokenCommandHandler(IUserRepository userRepository, IJwtServ
 {
     public async Task<IResult> Handle(RefreshTokenCommand command, CancellationToken cancellationToken)
     {
-        var claims = jwtService.GetPrincipalFromExpiredToken(command.AccessToken);
-
-        if (claims == null)
-            return Results.BadRequest("Invalid access or refresh token.");
-
-        var userId = claims.Single(claim => claim.Type == JwtRegisteredClaimNames.NameId).Value;
-
-        var user = await userRepository.Get(new ObjectId(userId));
-
-        if (user == null)
+        try
         {
-            return Results.NotFound("User is not found.");
+            var claims = jwtService.GetPrincipalFromExpiredToken(command.AccessToken);
+
+            if (claims == null) return Results.BadRequest("Invalid access or refresh token.");
+
+            var userId = claims.Single(claim => claim.Type == JwtRegisteredClaimNames.NameId).Value;
+
+            var user = await userRepository.Get(new ObjectId(userId));
+
+            if (user == null)
+            {
+                return Results.NotFound("User is not found.");
+            }
+
+            if (user.RefreshToken != command.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                return Results.BadRequest("Invalid access or refresh token.");
+            }
+
+            var newAccessToken = jwtService.GenerateJsonWebToken(user);
+            var newRefreshTokenData = jwtService.GenerateRefreshTokenData();
+
+            await userRepository.UpdateUserRefreshTokenData(user.Id, newRefreshTokenData.refreshToken, newRefreshTokenData.refreshTokenExpiryTime);
+
+            return Results.Ok(new
+            {
+                accessToken = newAccessToken,
+                newRefreshTokenData.refreshToken
+            });
         }
-
-        if (user.RefreshToken != command.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        catch (Exception e)
         {
-            return Results.BadRequest("Invalid access or refresh token.");
+            Console.WriteLine(e);
+            return Results.BadRequest();
         }
-
-        var newAccessToken = jwtService.GenerateJsonWebToken(user);
-        var newRefreshTokenData = jwtService.GenerateRefreshTokenData();
-        
-        await userRepository.UpdateUserRefreshTokenData(user.Id, newRefreshTokenData.refreshToken, newRefreshTokenData.refreshTokenExpiryTime);
-        
-        return Results.Ok(new
-        {
-            accessToken = newAccessToken,
-            newRefreshTokenData.refreshToken
-        });
     }
 }
