@@ -41,7 +41,7 @@ public static class BucketsEndpoints
             .DisableAntiforgery()
             .RequireAuthorization();
 
-        app.MapPost("buckets/user", async (HttpContext httpContext, [FromBody] GetBucketsContract contract, [FromServices] IMediator mediator) =>
+        app.MapPost("buckets/filter", async (HttpContext httpContext, [FromBody] GetBucketsContract contract, [FromServices] IMediator mediator) =>
             await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
             .WithGroupName(Source)
             .DisableAntiforgery()
