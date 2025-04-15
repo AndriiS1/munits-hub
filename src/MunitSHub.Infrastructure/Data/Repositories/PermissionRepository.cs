@@ -6,7 +6,8 @@ namespace MunitSHub.Infrastructure.Data.Repositories;
 public class PermissionRepository(IMongoDatabase database) : IPermissionRepository
 {
     private readonly IMongoCollection<Permission> _collection = database.GetCollection<Permission>(Collections.Permissions);
-
+    private const string PermissionSearchIndex = "PermissionSearchIndex";
+    
     public async Task Create(Permission permission)
     {
         await _collection.InsertOneAsync(permission);
@@ -34,5 +35,19 @@ public class PermissionRepository(IMongoDatabase database) : IPermissionReposito
             Limit = pageSize,
             Sort = Builders<Permission>.Sort.Descending(x => x.Created)
         })).ToListAsync();
+    }
+    
+    public async Task<List<Permission>> Search(ObjectId userId, int page, int pageSize, TargetType targetType, string search)
+    {
+        var filter = Builders<Permission>.Filter.Where(p => p.UserId == userId && p.TargetType == targetType);
+
+        var autocomplete = Builders<Permission>.Search.Compound()
+            .Must(Builders<Permission>.Search.Autocomplete(c => c.TargetName, search));
+        
+        return await _collection.Aggregate()
+            .Search(autocomplete, indexName:PermissionSearchIndex)
+            .Match(filter).Limit(pageSize)
+            .Skip((page - 1) * pageSize)
+            .ToListAsync();
     }
 }

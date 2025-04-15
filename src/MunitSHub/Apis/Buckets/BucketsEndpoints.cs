@@ -46,5 +46,11 @@ public static class BucketsEndpoints
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
+        
+        app.MapPost("buckets/search", async (HttpContext httpContext, [FromBody] SearchBucketsContract contract, [FromServices] IMediator mediator) =>
+            await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
+            .WithGroupName(Source)
+            .DisableAntiforgery()
+            .RequireAuthorization();
     }
 }
