@@ -21,7 +21,7 @@ public class GetUploadSignedUrlsQueryHandler(IObjectClientManager objectClient, 
 
         for (var partNumber = 1; partNumber <= totalParts; partNumber++)
         {
-            urlTasks.Add(FetchSignedUrlAsync(query.BucketId, query.UploadId, partNumber, cancellationToken));
+            urlTasks.Add(FetchSignedUrlAsync(query.BucketId, query.ObjectId, query.UploadId, partNumber, cancellationToken));
         }
 
         var urls = await Task.WhenAll(urlTasks);
@@ -32,11 +32,12 @@ public class GetUploadSignedUrlsQueryHandler(IObjectClientManager objectClient, 
         });
     }
 
-    private async Task<string> FetchSignedUrlAsync(string bucketId, string uploadId, int partNumber, CancellationToken cancellationToken)
+    private async Task<string> FetchSignedUrlAsync(string bucketId, string objectId, string uploadId, int partNumber, CancellationToken cancellationToken)
     {
         var response = await objectClient.GetClient().GetPartUploadUrlAsync(new GetPartUploadUrlRequest
         {
             BucketId = bucketId,
+            ObjectId = objectId,
             PartNumber = partNumber,
             UploadId = uploadId
         }, cancellationToken: cancellationToken);

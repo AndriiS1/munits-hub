@@ -16,6 +16,7 @@ public class AbortMultipartUploadCommandHandler(IObjectClientManager objectClien
         await objectClient.GetClient().AbortMultipartUploadAsync(new AbortMultipartUploadRequest
         {
             BucketId = command.BucketId,
+            ObjectId = command.ObjectId,
             UploadId = command.UploadId
         }, cancellationToken: cancellationToken);
 

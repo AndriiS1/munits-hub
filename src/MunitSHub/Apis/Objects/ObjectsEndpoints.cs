@@ -16,20 +16,23 @@ public static class ObjectsEndpoints
             .DisableAntiforgery()
             .RequireAuthorization();
 
-        app.MapPost("objects/upload/{uploadId}/abort", async (string uploadId, HttpContext httpContext, [FromBody] AbortMultipartUploadContract contract,
-                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId(), uploadId)))
+        app.MapPost("objects/{objectId}/upload/{uploadId}/abort", async ([FromRoute] string objectId, [FromRoute] string uploadId, HttpContext httpContext,
+                [FromBody] AbortMultipartUploadContract contract,
+                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId(), objectId, uploadId)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
 
-        app.MapPost("objects/upload/{uploadId}/complete", async ([FromRoute] string uploadId, HttpContext httpContext, [FromBody] CompleteMultipartUploadContract contract,
-                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId(), uploadId)))
+        app.MapPost("objects/{objectId}/upload/{uploadId}/complete", async ([FromRoute] string objectId ,[FromRoute] string uploadId, HttpContext httpContext,
+                [FromBody] CompleteMultipartUploadContract contract,
+                [FromServices] IMediator mediator) => await mediator.Send(contract.ToCommand(httpContext.GetUserId(), objectId, uploadId)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
 
-        app.MapGet("objects/upload/{uploadId}/signed-urls", async ([FromRoute] string uploadId, HttpContext httpContext, [FromQuery] string bucketId, [FromQuery] long fileSize,
-                [FromServices] IMediator mediator) => await mediator.Send(new GetUploadSignedUrlsQuery(httpContext.GetUserId(), bucketId, uploadId, fileSize)))
+        app.MapGet("objects/{objectId}/upload/{uploadId}/signed-urls", async ([FromRoute] string objectId, [FromRoute] string uploadId, HttpContext httpContext,
+                [FromQuery] string bucketId, [FromQuery] long fileSize,
+                [FromServices] IMediator mediator) => await mediator.Send(new GetUploadSignedUrlsQuery(httpContext.GetUserId(), bucketId, objectId, uploadId, fileSize)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();

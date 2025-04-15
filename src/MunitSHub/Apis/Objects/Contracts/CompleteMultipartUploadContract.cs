@@ -10,8 +10,8 @@ public sealed record CompleteMultipartUploadContract
     [JsonInclude]
     public Dictionary<int, string> ETags { get; set; } = new();
 
-    public CompleteMultipartUploadCommand ToCommand(ObjectId userId, string uploadId)
+    public CompleteMultipartUploadCommand ToCommand(ObjectId userId, string objectId, string uploadId)
     {
-        return new CompleteMultipartUploadCommand(userId, BucketId, uploadId, ETags);
+        return new CompleteMultipartUploadCommand(userId, BucketId, objectId, uploadId, ETags);
     }
 }

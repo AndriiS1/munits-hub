@@ -23,6 +23,7 @@ public class InitiateMultipartUploadCommandHandler(IObjectClientManager objectCl
 
         return Results.Ok(new
         {
+            response.ObjectId,
             response.UploadId
         });
     }

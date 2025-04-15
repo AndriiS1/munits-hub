@@ -16,6 +16,7 @@ public class CompleteMultipartUploadCommandHandler(IObjectClientManager objectCl
         var request = new CompleteMultipartUploadRequest
         {
             BucketId = command.BucketId,
+            ObjectId = command.ObjectId,
             UploadId = command.UploadId
         };
 

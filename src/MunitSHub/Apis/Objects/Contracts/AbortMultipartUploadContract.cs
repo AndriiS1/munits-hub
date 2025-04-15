@@ -4,8 +4,8 @@ namespace MunitSHub.Apis.Objects.Contracts;
 
 public sealed record AbortMultipartUploadContract(string BucketId)
 {
-    public AbortMultipartUploadCommand ToCommand(ObjectId userId, string uploadId)
+    public AbortMultipartUploadCommand ToCommand(ObjectId userId, string objectId, string uploadId)
     {
-        return new AbortMultipartUploadCommand(userId, BucketId, uploadId);
+        return new AbortMultipartUploadCommand(userId, BucketId, objectId, uploadId);
     }
 }
