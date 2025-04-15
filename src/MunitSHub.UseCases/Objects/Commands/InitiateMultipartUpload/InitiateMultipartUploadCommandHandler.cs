@@ -17,8 +17,8 @@ public class InitiateMultipartUploadCommandHandler(IObjectClientManager objectCl
         {
             BucketId = command.BucketId,
             FileKey = command.FileKey,
-            ContentType = command.ContentType,
-            SizeInBytes = command.SizeInBytes,
+            MimeType = command.ContentType,
+            SizeInBytes = command.SizeInBytes
         }, cancellationToken: cancellationToken);
 
         return Results.Ok(new

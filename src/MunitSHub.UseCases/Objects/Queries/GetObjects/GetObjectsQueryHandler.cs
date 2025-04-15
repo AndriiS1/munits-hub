@@ -13,12 +13,24 @@ public class GetObjectsQueryHandler(IObjectClientManager objectClient, IPermissi
 
         if (permission == null) return Results.Forbid();
 
-        var response = await objectClient.GetClient().GetObjectByPrefixAsync(new GetObjectByPrefixRequest
+        var response = await objectClient.GetClient().GetObjectsByPrefixAsync(new GetObjectByPrefixRequest
         {
             BucketId = query.BucketId,
-            Prefix = query.Prefix
+            Prefix = query.Prefix,
+            PageSize = query.PageSize,
+            Cursor = ParseCursor(query.Cursor)
+
         }, cancellationToken: cancellationToken);
 
         return Results.Ok(response.Content);
+    }
+
+    private static ObjectSuffixesCursor? ParseCursor(GetObjectsCursor? cursor)
+    {
+        return cursor is null ? null : new ObjectSuffixesCursor
+        {
+            Suffix = cursor.Suffix,
+            Type = cursor.Type
+        };
     }
 }
