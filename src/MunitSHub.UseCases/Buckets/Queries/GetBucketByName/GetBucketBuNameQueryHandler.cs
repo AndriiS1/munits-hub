@@ -21,6 +21,6 @@ public class GetBucketBuNameQueryHandler(IPermissionRepository permissionReposit
             Id = userPermission.TargetId
         }, cancellationToken: cancellationToken);
 
-        return Results.Ok(response.Content);
+        return Results.Ok(response);
     }
 }

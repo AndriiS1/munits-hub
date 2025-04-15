@@ -22,7 +22,7 @@ public class GetObjectsQueryHandler(IObjectClientManager objectClient, IPermissi
 
         }, cancellationToken: cancellationToken);
 
-        return Results.Ok(response.Content);
+        return Results.Ok(response.Suffixes);
     }
 
     private static ObjectSuffixesCursor? ParseCursor(GetObjectsCursor? cursor)

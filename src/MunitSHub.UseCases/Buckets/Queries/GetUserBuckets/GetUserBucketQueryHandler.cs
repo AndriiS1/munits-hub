@@ -19,6 +19,6 @@ public class GetUserBucketQueryHandler(IBucketClientManager bucketClientManager,
             }
         }, cancellationToken: cancellationToken);
 
-        return Results.Ok(response.Content);
+        return Results.Ok(response.Buckets);
     }
 }
