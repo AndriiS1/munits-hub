@@ -5,13 +5,11 @@ namespace MunitSHub.Apis.Objects.Contracts;
 
 public sealed record CompleteMultipartUploadContract
 {
-    public required string BucketId { get; init; }
-
     [JsonInclude]
     public Dictionary<int, string> ETags { get; set; } = new();
 
-    public CompleteMultipartUploadCommand ToCommand(ObjectId userId, string objectId, string uploadId)
+    public CompleteMultipartUploadCommand ToCommand(ObjectId userId, string bucketId, string objectId, string uploadId)
     {
-        return new CompleteMultipartUploadCommand(userId, BucketId, objectId, uploadId, ETags);
+        return new CompleteMultipartUploadCommand(userId, bucketId, objectId, uploadId, ETags);
     }
 }
