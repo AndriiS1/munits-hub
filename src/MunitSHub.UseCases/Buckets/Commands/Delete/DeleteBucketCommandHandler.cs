@@ -15,7 +15,8 @@ public class DeleteBucketCommandHandler(IBucketClientManager clientManager, IPer
         {
             return Results.Forbid();
         }
-        
+
+        await permissionRepository.Delete(userPermission.Id);
         await clientManager.GetClient().DeleteBucketAsync(new DeleteBucketRequest
         {
             Id = command.BucketId,

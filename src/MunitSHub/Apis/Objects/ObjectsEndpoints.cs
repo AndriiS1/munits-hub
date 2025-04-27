@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MunitSHub.Apis.Objects.Contracts;
+using MunitSHub.UseCases.Objects.Commands.Delete;
+using MunitSHub.UseCases.Objects.Commands.DeleteVersion;
 using MunitSHub.UseCases.Objects.Queries.GetObjectQuery;
 using MunitSHub.UseCases.Objects.Queries.GetUploadSignedUrls;
 namespace MunitSHub.Apis.Objects;
@@ -45,6 +47,20 @@ public static class ObjectsEndpoints
 
         app.MapPost("buckets/{bucketId}/objects/filter", async (HttpContext httpContext, [FromRoute] string bucketId, [FromBody] GetObjectsContract contract,
                 [FromServices] IMediator mediator) => await mediator.Send(contract.ToQuery(httpContext.GetUserId(), bucketId)))
+            .WithGroupName(Source)
+            .DisableAntiforgery()
+            .RequireAuthorization();
+
+        app.MapDelete("buckets/{bucketId}/objects/{*fileKey}", async (HttpContext httpContext, [FromQuery] string? uploadId, [FromRoute] string bucketId, [FromRoute] string fileKey,
+                [FromServices] IMediator mediator) =>
+            {
+                if (uploadId is null)
+                {
+                    return await mediator.Send(new DeleteObjectCommand(httpContext.GetUserId(), bucketId, fileKey));
+                }
+
+                return await mediator.Send(new DeleteObjectVersionCommand(httpContext.GetUserId(), bucketId, fileKey, uploadId));
+            })
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();

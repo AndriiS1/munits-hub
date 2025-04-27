@@ -19,7 +19,7 @@ public class CompleteMultipartUploadCommandHandler(IObjectClientManager objectCl
             ObjectId = command.ObjectId,
             UploadId = command.UploadId
         };
-
+        
         foreach (var entry in command.ETags)
         {
             request.ETags.Add(entry.Key, entry.Value);

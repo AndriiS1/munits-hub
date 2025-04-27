@@ -24,7 +24,8 @@ public static class BucketsEndpoints
             .DisableAntiforgery()
             .RequireAuthorization();
 
-        app.MapDelete("buckets/", async ([FromBody] DeleteBucketCommand command, [FromServices] IMediator mediator) => await mediator.Send(command))
+        app.MapDelete("buckets/{id}", async ([FromRoute] string id, HttpContext httpContext, [FromServices] IMediator mediator) =>
+            await mediator.Send(new DeleteBucketCommand(httpContext.GetUserId(), id)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
@@ -34,7 +35,7 @@ public static class BucketsEndpoints
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
-        
+
         app.MapGet("buckets/by-name/{bucketName}", async (string bucketName, HttpContext httpContext, [FromServices] IMediator mediator) =>
             await mediator.Send(new GetBucketByNameQuery(httpContext.GetUserId(), bucketName)))
             .WithGroupName(Source)
@@ -46,7 +47,7 @@ public static class BucketsEndpoints
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
-        
+
         app.MapPost("buckets/search", async (HttpContext httpContext, [FromBody] SearchBucketsContract contract, [FromServices] IMediator mediator) =>
             await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
             .WithGroupName(Source)

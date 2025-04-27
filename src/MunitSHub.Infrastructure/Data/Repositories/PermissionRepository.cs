@@ -12,6 +12,11 @@ public class PermissionRepository(IMongoDatabase database) : IPermissionReposito
     {
         await _collection.InsertOneAsync(permission);
     }
+    
+    public async Task Delete(ObjectId permissionsId)
+    {
+        await _collection.DeleteOneAsync(w => w.Id == permissionsId);
+    }
 
     public async Task<Permission?> Get(ObjectId userId, string targetId, TargetType targetType)
     {
