@@ -4,6 +4,7 @@ using MunitSHub.Apis.Buckets.Contract;
 using MunitSHub.UseCases.Buckets.Commands.Delete;
 using MunitSHub.UseCases.Buckets.Queries.GetBucket;
 using MunitSHub.UseCases.Buckets.Queries.GetBucketByName;
+using MunitSHub.UseCases.Buckets.Queries.GetMetrics;
 using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
 namespace MunitSHub.Apis.Buckets;
 
@@ -50,6 +51,12 @@ public static class BucketsEndpoints
 
         app.MapPost("buckets/search", async (HttpContext httpContext, [FromBody] SearchBucketsContract contract, [FromServices] IMediator mediator) =>
             await mediator.Send(contract.ToCommand(httpContext.GetUserId())))
+            .WithGroupName(Source)
+            .DisableAntiforgery()
+            .RequireAuthorization();
+        
+        app.MapGet("buckets/{id}/metrics", async ([FromRoute] string id, HttpContext httpContext,
+                [FromServices] IMediator mediator) => await mediator.Send(new GetMetricsQuery(httpContext.GetUserId(), id)))
             .WithGroupName(Source)
             .DisableAntiforgery()
             .RequireAuthorization();
