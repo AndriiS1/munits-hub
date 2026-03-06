@@ -4,9 +4,9 @@ MunitS Hub is a .NET 9 backend service that acts as a gateway and orchestration 
 
 It exposes a RESTful API for user management, bucket operations, and object handling, while communicating with a backend storage service via gRPC. It uses a clean architecture with CQRS to separate concerns and manage business logic effectively.
 
-# Features
+## Features
 
-## User Management
+### User Management
 
 Sign-up (**POST** `/users/sign-up`): Register a new user account.
 
@@ -16,7 +16,7 @@ Refresh Token (**POST** /users/refresh-token): Obtain a new access token using a
 
 Get User Email (**GET** /users/email): Retrieve the email of the currently authenticated user.
 
-## Bucket Management
+### Bucket Management
 
 Create Bucket (**POST** `/buckets/`): Create a new storage bucket with optional versioning.
 
@@ -32,7 +32,7 @@ Check Bucket Existence (**POST** `/buckets/exists`): Verify if a bucket name is 
 
 Get Bucket Metrics (**GET** `/buckets/{id}/metrics`): Fetch usage metrics for a bucket.
 
-## Object Management
+### Object Management
 
 Initiate Multipart Upload (**POST** `/buckets/{bucketId}/objects/uploads/initiate`): Begin the process of uploading a large object in parts.
 
@@ -48,72 +48,39 @@ Get Object Details (**GET** /buckets/{bucketName}/objects/{objectId}): Retrieve 
 
 Delete Object/Version (**DELETE** /buckets/{bucketId}/objects/{\*fileKey}): Delete an entire object or a specific version of an object.
 
-# Project setup
+## Getting started
+
+### Prerequisites
+
+- .NET 9 SDK or later
+- Docker (optionally for cassandra cluster)
+
+### Configuration
 
 To successfully start the project you have to add env variables. Full example:
 
 ```JSON
 {
 	"Storage": {
-	"ConnectionUrl": "https://localhost:7055"
+	"ConnectionUrl": "address_of_run_storage_service" // https://localhost:7055
 	},
 	"DataBase": {
-	"Name": "MunitSHub",
-	"ConnectionString": "mongodb+srv://..."
+	"Name": "your_database_name", // MunitSHub
+	"ConnectionString": "your_mongodb_connection_string" // mongodb+srv://...
 	},
 	"Clients": {
-	"ClientsUrls": ["http://localhost:3000"]
+	"ClientsUrls": ["munits_client_url"] // http://localhost:3000
 	},
 	"Jwt": {
-	"Audience": "https://localhost:3000",
-	"Issuer": "https://localhost:7172",
-	"Key": "YOUR_SECRET_KEY",
+	"Audience": "your_audience", // https://localhost:3000
+	"Issuer": "your_issuer", // https://localhost:7172
+	"Key": "your_super_secret_jwt_key_that_is_long_enough",
 	"TokenValidityInMinutes": 10
 	}
 }
 ```
 
-## Database Connection
-
-As project uses MongoDb you have create it's cluster with db and setup proper values
-
-```JSON
-
-"DataBase": {
-	"ConnectionString": "your_mongodb_connection_string",
-	"Name": "your_database_name"
-}
-```
-
-## JWT Authentication
-
-```JSON
-
-"Jwt": {
-	"Audience": "your_audience",
-	"Issuer": "your_issuer",
-	"Key": "your_super_secret_jwt_key_that_is_long_enough",
-	"TokenValidityInMinutes": 60
-}
-```
-
-## MunitS (storage service - grpc)
-
-```JSON
-"Storage": {
-	"ConnectionUrl": "address_of_run_storage_service"
-}
-```
-
-## CORS Origins
-
-```JSON
-	"Clients": {
-	"ClientsUrls": [ "munits_client_url" ]
-}
-```
-
-# Running the service
+### Running the Application
 
 1. Clone the repository
    - git clone https://github.com/AndriiS1/munits-hub.git
@@ -123,3 +90,8 @@ As project uses MongoDb you have create it's cluster with db and setup proper va
    - cd src/MunitSHub
    - dotnet run
    - The API will be available at the URLs specified in launchSettings.json (e.g., http://localhost:5092).
+
+# Links
+
+- [MunitS Hub Client](https://github.com/AndriiS1/munits-hub-client)
+- [MunitS Hub Backend](https://github.com/AndriiS1/munits-hub)
