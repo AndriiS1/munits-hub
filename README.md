@@ -1,3 +1,10 @@
+The system consists of **two parts** and **three components**:
+
+1. **MunitS Hub**
+   - [**MunitS Hub Client**](https://github.com/AndriiS1/munits-hub-client) – a frontend interface to showcase the storage capabilities.
+   - [**MunitS Hub Backend**](https://github.com/AndriiS1/munits-hub) – a backend layer between the client and the object storage, providing authentication and management functionality.
+2. [**MunitS**](https://github.com/AndriiS1/munits) – an **integrable object storage solution** that can be connected to other systems.
+
 # MunitS hub
 
 MunitS Hub is a .NET 10 backend service that acts as a gateway and orchestration layer between [MunitS Hub Client](https://github.com/AndriiS1/munits-hub-client) and [MunitS](https://github.com/AndriiS1/MunitS) (object storage). The main purpose of this service is authentication and objects access control.
@@ -91,7 +98,7 @@ To successfully start the project you have to add env variables. Full example:
    - dotnet run
    - The API will be available at the URLs specified in launchSettings.json (e.g., http://localhost:5092).
 
-# Links
+# Don't forget to check
 
 - [MunitS](https://github.com/AndriiS1/munits)
 - [MunitS Hub Client](https://github.com/AndriiS1/munits-hub-client)
