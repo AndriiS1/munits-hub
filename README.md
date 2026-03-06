@@ -1,6 +1,6 @@
 # MunitS hub
 
-MunitS Hub is a .NET 9 backend service that acts as a gateway and orchestration layer between [MunitS Hub Client](https://github.com/AndriiS1/munits-hub-client) and [MunitS](https://github.com/AndriiS1/MunitS) (object storage). The main purpose of this service is authentication and objects access control.
+MunitS Hub is a .NET 10 backend service that acts as a gateway and orchestration layer between [MunitS Hub Client](https://github.com/AndriiS1/munits-hub-client) and [MunitS](https://github.com/AndriiS1/MunitS) (object storage). The main purpose of this service is authentication and objects access control.
 
 It exposes a RESTful API for user management, bucket operations, and object handling, while communicating with a backend storage service via gRPC. It uses a clean architecture with CQRS to separate concerns and manage business logic effectively.
 
@@ -52,7 +52,7 @@ Delete Object/Version (**DELETE** /buckets/{bucketId}/objects/{\*fileKey}): Dele
 
 ### Prerequisites
 
-- .NET 9 SDK or later
+- .NET 10 SDK or later
 - Docker (optionally for cassandra cluster)
 
 ### Configuration
@@ -93,5 +93,5 @@ To successfully start the project you have to add env variables. Full example:
 
 # Links
 
+- [MunitS](https://github.com/AndriiS1/munits)
 - [MunitS Hub Client](https://github.com/AndriiS1/munits-hub-client)
-- [MunitS Hub Backend](https://github.com/AndriiS1/munits-hub)
